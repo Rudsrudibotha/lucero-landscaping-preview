@@ -1,0 +1,30 @@
+Image credits, Lucero Landscaping & Hardscaping
+===============================================
+
+Photos and logo: Lucero Landscaping LLC (their Nextdoor business page,
+https://nextdoor.com/pages/lucero-landscaping-fenwick-island-de/).
+A house number in mulch-bed.jpg is blurred.
+
+- images/stone-gravel-before-after.jpg .. Gravel side-yard job, before and after
+- images/mulch-bed.jpg .................. Fresh mulch bed with mums
+- images/drain-pipe-laying.jpg .......... Laying a drain pipe
+- images/drain-pipe-run.jpg ............. Drain line along a fence
+- images/lawn-stripes.jpg ............... Mowing stripes
+- images/tree-staked.jpg ................ New tree, staked and mulched
+- images/overgrown-yard.jpg ............. Overgrown yard
+- images/logo.jpg ....................... Lucero Landscaping & Hardscaping LLC logo
+- images/logo-mark.jpg .................. Logo (small)
+- images/favicon-64.png ................. Logo (icon)
+- apple-touch-icon.png .................. Logo (icon)
+- images/og-image.jpg ................... Social sharing image (gravel side-yard photo and logo)
+
+Photos from Pexels (free to use under the Pexels terms):
+- images/tree-cutting.jpg ......... Chainsaw cutting a fallen trunk. Mathias Reding,
+                                    https://www.pexels.com/photo/crop-worker-sawing-tree-trunk-6835303/
+- images/storm-fallen-tree.jpg .... Uprooted tree after a storm. April Yang,
+                                    https://www.pexels.com/photo/uprooted-tree-after-severe-storm-in-urban-area-32394146/
+- images/branch-chipper.jpg ....... Branches going into a wood chipper. John Robertson,
+                                    https://www.pexels.com/photo/worker-operating-wood-chipper-in-suburban-setting-34581908/
+
+Icons: inline SVG.
+Fonts: Archivo and Nunito Sans via Google Fonts (open source).

@@ -1,0 +1,93 @@
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.getElementById('site-nav');
+  var label = toggle ? toggle.querySelector('.label') : null;
+
+  function setOpen(open, returnFocus) {
+    if (!toggle || !nav) return;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (label) label.textContent = open ? 'Close menu' : 'Menu';
+    nav.classList.toggle('open', open);
+    var hdr = document.querySelector('.site-header');
+    if (hdr) hdr.classList.toggle('menu-open', open);
+    if (!open && returnFocus) toggle.focus();
+  }
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () { setOpen(toggle.getAttribute('aria-expanded') !== 'true'); });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('keydown', function (e) {
+      if ((e.key === 'Escape' || e.key === 'Esc') && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+    });
+    window.matchMedia('(min-width: 1100px)').addEventListener('change', function (mq) { if (mq.matches) setOpen(false); });
+  }
+
+  // Service links pre-select the service in the estimate form
+  var select = document.getElementById('f-service');
+  document.querySelectorAll('[data-service]').forEach(function (a) {
+    a.addEventListener('click', function () { if (select) select.value = a.getAttribute('data-service'); });
+  });
+
+  // Estimate form: build an email (or a text) with the details filled in
+  var PHONE = '+13028645919';
+  var EMAIL = 'lucerolandscaping124@gmail.com';
+  var form = document.getElementById('quote-form');
+  var status = document.getElementById('form-status');
+  function v(id) { return (document.getElementById(id).value || '').trim(); }
+  function collect(viaText) {
+    var name = v('f-name'), phone = v('f-phone'), email = v('f-email');
+    if (!name || (!viaText && !phone && !email)) {
+      status.textContent = 'Please add your name and a phone number or email so we can reach you.';
+      (name ? document.getElementById(phone ? 'f-email' : 'f-phone') : document.getElementById('f-name')).focus();
+      return null;
+    }
+    return { name: name, phone: phone, email: email, service: v('f-service'), area: v('f-area'), msg: v('f-msg') };
+  }
+  // Natural wording for every Service and Town option
+  function place(area) { return area === 'Nearby' ? 'near Lewes and Rehoboth Beach' : 'in ' + area; }
+  function areaLabel(area) { return area === 'Nearby' ? 'Near Lewes and Rehoboth Beach' : area; }
+  function job(service) { return service === 'Something else' ? '' : ' for ' + service.toLowerCase(); }
+  function sentence(t) { return /[.!?\u2026)]$/.test(t) ? t : t + '.'; }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = collect();
+      if (!d) return;
+      var subject = 'Free estimate request' + (d.service === 'Something else' ? ' ' : ': ' + d.service + ' ') + place(d.area);
+      var body = [
+        'Hi Lucero Landscaping team,', '',
+        'I\u2019d like a free estimate' + job(d.service) + ' ' + place(d.area) + '. Photos of the job are attached.', '',
+        '[Before you send: please attach photos of the job to this email.]', '',
+        'Name: ' + d.name,
+        'Phone: ' + (d.phone || '-'),
+        'Email: ' + (d.email || '-'),
+        'Service: ' + d.service,
+        'Town: ' + areaLabel(d.area), '',
+        'About the job:', (d.msg || '-'), '',
+        'Thanks,', d.name
+      ].join('\n');
+      status.textContent = 'Opening your email app\u2026 Remember to attach your photos.';
+      var href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      form.setAttribute('data-last', href);
+      window.location.href = href;
+    });
+    var textBtn = document.getElementById('text-request');
+    if (textBtn) {
+      textBtn.addEventListener('click', function () {
+        var d = collect(true);
+        if (!d) return;
+        var parts = ['Hi Lucero Landscaping team, I\u2019d like a free estimate' + job(d.service) + ' ' + place(d.area) + '.'];
+        if (d.msg) parts.push(sentence(d.msg));
+        parts.push(sentence('This is ' + d.name));
+        if (d.email) parts.push('My email is ' + d.email + '.');
+        if (d.phone) parts.push('My number is ' + d.phone + '.');
+        parts.push('I\u2019ll send photos of the job in this thread.');
+        status.textContent = 'Opening your messages app\u2026 Add your photos there.';
+        var href = 'sms:' + PHONE + '?&body=' + encodeURIComponent(parts.join(' '));
+        form.setAttribute('data-last', href);
+        window.location.href = href;
+      });
+    }
+  }
+})();
